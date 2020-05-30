@@ -6,11 +6,10 @@
             <div class="block-header">
                 <div class="row">
                     <div class="col-lg-6 col-md-8 col-sm-12">
-                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> Module Members</h2>
+                        <h2><a href="javascript:void(0);"></a> {{header}}</h2>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
-                            <li class="breadcrumb-item">Module</li>
-                            <li class="breadcrumb-item active">Module Members</li>
+                            <li style="margin-top:5px;" class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
+                            <li style="margin-top:5px;" class="breadcrumb-item">{{subheader}}</li>
                         </ul>
                     </div>
 
@@ -89,6 +88,8 @@ export default {
             search: null,
             leaderId:'',
             searched: [],
+            header:'',
+            subheader:''
 
         }
     },
@@ -102,6 +103,8 @@ export default {
            team.getteamByprojectID(this.projectId).then(doc=>{
             this.teamarr = doc.data;
             this.searched=doc.data;
+            this.header = "Team Details"
+            this.subheader = "Project / View Projects / Project Details / Team Details"
         })
         }
 
@@ -110,6 +113,10 @@ export default {
            emp.getempbymoduleid(this.moduleId).then(doc=>{
              this.teamarr = doc.data;
              this.searched=doc.data;
+             this.header = "Module Members"
+             this.subheader = "Project / View Projects / Project Details / View Modules / Module Members"
+
+
            })
         }
     },

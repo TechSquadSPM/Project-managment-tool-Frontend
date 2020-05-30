@@ -6,8 +6,7 @@
                 <div class="block-header">
                     <div class="row">
                         <div class="col-lg-6 col-md-8 col-sm-12">
-                            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a> Update Client</h2>
+                            <h2>Update Client</h2>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><router-link to="/dashboard"><i class="icon-home"></i></router-link></li>
                                 <li class="breadcrumb-item">Clients</li>
@@ -46,7 +45,7 @@
                                     </div>
                                     <div class="col-md-3 col-sm-12">
                                         <div class="form-group">
-                                            <input @input="mobileno" id="mobileno" type="text" class="form-control" placeholder="Mobile No"  v-model="clientArr.clientContactNo">
+                                            <input @input="mobileno" id="mobileno" type="tel" maxlength="10" class="js-input-mobile form-control" placeholder="Mobile No"  v-model="clientArr.clientContactNo">
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-sm-12">
@@ -108,6 +107,16 @@ export default {
        document.getElementById("emailid").style = "border-color:lightgrey;"
       },
       mobileno:function(){
+        $('body').on('keyup', '.js-input-mobile', function () {
+    var $input = $(this),
+        value = $input.val(),
+        length = value.length,
+        inputCharacter = parseInt(value.slice(-1));
+
+    if (!((length > 0 && inputCharacter >= 0 && inputCharacter <= 10) || (length === 1 && inputCharacter >= 7 && inputCharacter <= 10))) {
+        $input.val(value.substring(0, length - 1));
+     }
+    });
        document.getElementById("mobileno").style = "border-color:lightgrey;"
       },
       organization:function(){
@@ -149,7 +158,15 @@ export default {
         client.updateclient(this.clientArr).then(doc=>{
           console.log(doc.data);
             this.updateflag = true;
-         })
+            this.$fire({
+                    title: "Updated successfully",
+                    type: "success",
+                    timer: 3000
+                    }).then(r => {
+                    console.log(r.value);
+                    });
+                    this.$router.push({path:'/viewclient'});
+            })
         }
       },
       Onback:function(){

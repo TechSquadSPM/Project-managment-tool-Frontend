@@ -59,6 +59,8 @@ import Charts from 'fusioncharts/fusioncharts.charts';
 
 import FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion'
 import VueSimpleAlert from "vue-simple-alert";
+import Datepicker from 'vuejs-datepicker';
+
 
 Vue.use(VueFusionCharts, FusionCharts, Charts, FusionTheme)
 Vue.use(VueRouter);
@@ -128,7 +130,7 @@ const routes=[
   {path:'/empprojectdetails/:empId',component:empprojectdetails},
   {path:'/announcement',component:announcement},
   {path:'/announcementview',component:announcementview},
-  {path:'/updateannouncement/:announcementId',component:updateannouncement},
+  {path:'/updateannouncement/:id/:token',component:updateannouncement},
   {path:'/profile',component:profile},
   {path:'/editprofile',component:editprofile},
   {path:'/editpassword',component:editpassword},

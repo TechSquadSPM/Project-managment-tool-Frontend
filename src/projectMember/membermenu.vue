@@ -53,7 +53,7 @@
 
                                 </ul>
                             </li>
-                            <li><span class="icon-menu"><router-link to="/memberCalender"><i class="icon-calendar"></i></router-link></span></li>    
+                            <li><span class="icon-menu"><router-link to="/memberCalender"><i class="icon-calendar"></i></router-link></span></li>
                             <li><router-link to="/" class="icon-menu"><i @click="onlogout" class="icon-login"></i></router-link></li>
                         </ul>
                     </div>
@@ -99,7 +99,6 @@
                                             class="fa fa-user" style="font-size:22px;"></i><span style="cursor:pointer;" >Profile</span></a>
                                     <ul>
                                         <li v-if="fp"><router-link to="/memberProfile">View Profile</router-link></li>
-                                        <li v-if="fp"><router-link to="/memberEditProfile">Update Profile</router-link></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -108,7 +107,7 @@
                                     <ul>
                                         <li v-if="f"><router-link to="/memberprojectview" style="cursor:pointer;">View Projects</router-link></li>
                                     </ul>
-                                </li>   
+                                </li>
                                 <li>
                                     <router-link to="/memberannouncement">
                                         <i class="icon-bell"></i>
@@ -119,7 +118,7 @@
                                 <li><router-link to="/memberCalender"><i class="icon-calendar"></i>Calender</router-link></li>
                                 <!-- <li><router-link to="/memberissue"><i class="icon-screen-tablet"></i>Issues</router-link></li> -->
 
-                                 <li><router-link to="/memberPastproject"><i class="icon-list"></i>Past Projects</router-link></li>   
+                                 <li><router-link to="/memberPastproject"><i class="icon-list"></i>Past Projects</router-link></li>
                             </ul>
                         </nav>
                     </div>

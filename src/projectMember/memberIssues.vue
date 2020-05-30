@@ -6,10 +6,16 @@
                 <div class="block-header">
                     <div class="row">
                         <div class="col-lg-6 col-md-8 col-sm-12">
-                            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a>View Issues</h2>
+                            <h2><a href="javascript:void(0);"></a>View Issues</h2>
                             <ul class="breadcrumb">
 
+                            <li style="margin-top:5px;" class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
+
+                            <li style="margin-top:5px;" class="breadcrumb-item">Project</li>
+                            <li style="margin-top:5px;" class="breadcrumb-item active">View Projects</li>
+                            <li style="margin-top:5px;" class="breadcrumb-item active">Project Details</li>
+                            <li style="margin-top:5px;" class="breadcrumb-item active">View Modules</li>
+                            <li style="margin-top:5px;" class="breadcrumb-item active">View Issues</li>
                             </ul>
                         </div>
 
@@ -58,6 +64,7 @@
                                                     <div class="subtitle">...or click to select a file from your computer</div>
                                                 </div>
                                     </vue-dropzone>
+                                    <p v-if="extflag" style="color:red;">File Type is not valid *</p>
                                     </div>
                                   </div>
                                   <div class="col-md-12">
@@ -198,6 +205,7 @@ export default {
         issueflag:false,
         submoduleid:0,
         modulestatus:'',
+        extflag:false,
         selectedfile:File
 
     }
@@ -277,9 +285,10 @@ export default {
     },
     onfilecancel:function(file, error, xhr){
       this.selectedfile = File;
+      this.extflag = false;
     },
     addissue:function(){
-      if(this.issueArr.issueTitle == ""){
+     if(this.issueArr.issueTitle == ""){
           document.getElementById("title").focus();
           document.getElementById("title").style = "border-color:red;"
       }
@@ -302,31 +311,50 @@ export default {
         this.issueArr.projectId = this.$route.params.projectid;
         this.issueArr.moduleId = this.$route.params.moduleid;
          const fd = new FormData();
-        if(this.selectedfile.name!="File"){
 
-        fd.append("issueData",this.issueArr.issueData);
-        fd.append("issueFile",this.selectedfile,this.selectedfile.name);
-        fd.append("issueStatus",this.issueArr.issueStatus);
-        fd.append("empId",this.issueArr.empId);
-        fd.append("issueTime",this.issueArr.issueTime);
-        fd.append("projectId",this.issueArr.projectId);
-        fd.append("issuePriority",this.issueArr.issuePriority);
-        fd.append("moduleId",this.issueArr.moduleId);
-        fd.append("issueTitle",this.issueArr.issueTitle);
-        fd.append("subModuleId",this.issueArr.subModuleId);
+       if(this.selectedfile.name!="File"){
+
+          var index;
+          for(let i=0;i<this.selectedfile.name.length;i++){
+            if(this.selectedfile.name[i] == '.'){
+              index = i;
+            }
+          }
+          var ext = "";
+          for(let j=(index+1);j<this.selectedfile.name.length;j++){
+            ext = ext + this.selectedfile.name[j];
+          }
+         if(ext == "jpg" || ext == "JPG" || ext == "jpeg" || ext == "JPEG" || ext == "png" || ext == "PNG" || ext == "gif" || ext == "GIF" ||  ext == "tiff" || ext == "TIFF" || ext == "docx" || ext == "DOCX" || ext == "pdf" || ext == "PDF" ||  ext == "DOC" || ext == "doc"){
+            this.extflag = false;
+            fd.append("issueData",this.issueArr.issueData);
+            fd.append("issueFile",this.selectedfile,this.selectedfile.name);
+            fd.append("issueStatus",this.issueArr.issueStatus);
+            fd.append("empId",this.issueArr.empId);
+            fd.append("issueTime",this.issueArr.issueTime);
+            fd.append("projectId",this.issueArr.projectId);
+            fd.append("issuePriority",this.issueArr.issuePriority);
+            fd.append("moduleId",this.issueArr.moduleId);
+            fd.append("issueTitle",this.issueArr.issueTitle);
+            fd.append("subModuleId",this.issueArr.subModuleId);
 
 
-        issue.addissue(fd).then(doc=>{
-        this.$fire({
-                  title: "Added Successfully",
-                  type: "success",
-                  timer: 3000
-                  }).then(r => {
-                        this.addissueflag=!this.addissueflag;
-                        this.getissues();
-                        this.issueArr = {};
-              });
-        });
+            issue.addissue(fd).then(doc=>{
+            this.$fire({
+                      title: "Added Successfully",
+                      type: "success",
+                      timer: 3000
+                      }).then(r => {
+                            this.addissueflag=!this.addissueflag;
+                            this.getissues();
+                            this.issueArr = {};
+                  });
+            });
+
+         }
+         else{
+           this.extflag = true;
+         }
+
         }
 
         else if(this.selectedfile.name == "File"){

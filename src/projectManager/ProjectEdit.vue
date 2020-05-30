@@ -6,14 +6,7 @@
         <div class="block-header">
           <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-12">
-              <h2>
-                <a
-                  href="javascript:void(0);"
-                  class="btn btn-xs btn-link btn-toggle-fullwidth"
-                  ><i class="fa fa-arrow-left"></i
-                ></a>
-                Edit Project
-              </h2>
+              <h2>Edit Project</h2>
               <ul class="breadcrumb">
                 <li class="breadcrumb-item">
                   <router-link to="/dashboard"
@@ -130,7 +123,7 @@
                   </div>
                  </div>
                  <br>
-                <h5>Your Added File :-
+                <h5>File :-
                            <a href="javascript:void(0)" @click="flag=true">{{projectFile}}</a>
                                                     <a v-if="projectFile!=''" @click="ondelete" href="javascript:void(0);"
                                                         class="btn btn-sm btn-outline-danger"
@@ -168,7 +161,7 @@
 
                   <div class="col-sm-12">
                     <div class="mt-4">
-                       <p style="color:green;" v-if="updateflag">UPDATE Successfully</p>
+                       <!-- <p style="color:green;" v-if="updateflag">UPDATE Successfully</p> -->
 
                       <button
                         @click="onUpdateProject"
@@ -364,12 +357,28 @@ export default {
           fd.append("projectFile", this.selectedfile, this.selectedfile.name);
           fd.append("projectId",this.$route.params.projectId);
           project.updateprojectwithfile(fd).then(doc=>{
-                 this.updateflag = true;
-          })
+                 //this.updateflag = true;
+                          this.$fire({
+                                  title: "Updated successfully",
+                                  type: "success",
+                                  timer: 3000
+                                }).then(r => {
+                                  console.log(r.value);
+                                });
+                            this.$router.push({path:'/projectview/'});
+                        })
         }
         else{
           project.updateprojectwithoutfile(this.project).then(doc=>{
-                this.updateflag = true;
+                //this.updateflag = true;
+                 this.$fire({
+                                  title: "Updated successfully",
+                                  type: "success",
+                                  timer: 3000
+                                }).then(r => {
+                                  console.log(r.value);
+                                });
+                            this.$router.push({path:'/projectview/'});
           })
         }
 

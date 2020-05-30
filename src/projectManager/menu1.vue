@@ -18,7 +18,7 @@
 
                     <div id="navbar-menu">
                         <ul class="nav navbar-nav">
-                              <li><router-link to="/announcement"><button class="btn btn-warning">Make Announcement</button></router-link></li>
+                              <li><router-link to="/announcement"><button class="btn btn-warning">Announcement</button></router-link></li>
                               <li><span class="icon-menu"><router-link to="/calender"><i class="icon-calendar"></i></router-link></span></li>
 
                             <li><span class="icon-menu"><router-link to="/"><i @click="onlogout" class="icon-login"></i></router-link></span></li>
@@ -60,13 +60,8 @@
                                 <li><router-link to="/dashboard"><i class="icon-speedometer"></i><span
                                             class="active">Dashboard</span></router-link>
                                 </li>
-                                <li>
-                                    <a @click="fp=!fp" class="has-arrow"><i
-                                            class="fa fa-user" style="font-size:22px;"></i><span style="cursor:pointer;">Profile</span></a>
-                                    <ul>
-                                        <li v-if="fp"><router-link to="/profile">View Profile</router-link></li>
-                                        <li v-if="fp"><router-link to="/editprofile">Update Profile</router-link></li>
-                                    </ul>
+                                <li><router-link to="/profile"><i
+                                            class="fa fa-user" style="font-size:22px;"></i><span style="cursor:pointer;">Profile</span></router-link>
                                 </li>
                                 <li>
                                     <a @click="f=!f" class="has-arrow"><i

@@ -6,8 +6,7 @@
                 <div class="block-header">
                     <div class="row">
                         <div class="col-lg-6 col-md-8 col-sm-12">
-                            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a> View Employee</h2>
+                            <h2>View Employee</h2>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><router-link to="/dashboard"><i class="icon-home"></i></router-link></li>
                                 <li class="breadcrumb-item active">Employee / View Employee</li>

@@ -5,7 +5,16 @@
         <div class="container-fluid">
                 <div class="block-header">
                     <div class="row">
-                            <div class="container" id="app">
+                            <div class="col-lg-6 col-md-8 col-sm-12">
+                            <h2><a href="javascript:void(0);"></a>Calendar</h2>
+                            <ul class="breadcrumb">
+                                <li style="margin-top:5px;" class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
+                                </li>
+                                <li style="margin-top:5px;" class="breadcrumb-item active">Calender</li>
+                            </ul><br>
+                        </div>
+
+  <div class="container" id="app">
   <select name="month" v-model="curMonth" @change="getCalendarMonth">
     <option v-for="(month, index) in 12" v-bind:key="index" :value="index">{{monthsArray[index]}}</option>
   </select>
@@ -276,7 +285,7 @@ a.button {
 }
 
 a {
-  padding: 10px 10px 10px 10px
+  padding: 10px 2px 10px 10px
 }
 
 .center-title {

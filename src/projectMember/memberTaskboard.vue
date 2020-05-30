@@ -6,11 +6,14 @@
             <div class="block-header">
                 <div class="row">
                     <div class="col-lg-6 col-md-8 col-sm-12">
-                        <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i class="fa fa-arrow-left"></i></a> TaskBoard</h2>
+                        <h2><a href="javascript:void(0);"></a>Submodules</h2>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
-                            <li class="breadcrumb-item">Modules</li>
-                            <li class="breadcrumb-item active">View Modules</li>
+                            <li style="margin-top:5px;" class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
+                            <li style="margin-top:5px;" class="breadcrumb-item">Project</li>
+                            <li style="margin-top:5px;" class="breadcrumb-item active">View Projects</li>
+                            <li style="margin-top:5px;" class="breadcrumb-item active">Project Details</li>
+                            <li style="margin-top:5px;" class="breadcrumb-item active">View Modules</li>
+                            <li style="margin-top:5px;" class="breadcrumb-item active">Submodules</li>
                         </ul>
                     </div>
                 </div>

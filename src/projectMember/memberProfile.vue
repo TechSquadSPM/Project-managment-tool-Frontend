@@ -6,11 +6,12 @@
                 <div class="block-header">
                     <div class="row">
                         <div class="col-lg-6 col-md-8 col-sm-12">
-                            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a> Profile</h2>
+                            <h2><a href="javascript:void(0);"></a>Profile</h2>
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
-                                <li class="breadcrumb-item active">Profile / </li>
+                                <li style="margin-top:5px;" class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
+                                <li style="margin-top:5px;" class="breadcrumb-item active">Profile</li>
+                                <li style="margin-top:5px;" class="breadcrumb-item active">View Profile</li>
+
                             </ul>
                         </div>
                     </div>
@@ -65,14 +66,6 @@
 										<span>{{profilearr[0].empEmailId}}</span>
 									</div>
 								</div>
-								<div class="profile-info-row">
-									<div style="color:#667E99;"> Location </div>
-
-									<div class="profile-info-value">
-										<i class="fa fa-map-marker light-orange bigger-110"></i>
-										<span>Ahmedabad</span>
-									</div>
-								</div>
 
 								<div class="profile-info-row">
 									<div style="color:#667E99;"> Contact No. </div>
@@ -112,27 +105,23 @@ export default {
   created(){
     emp.getempbyid(localStorage.getItem('empId')).then(doc=>{
         this.profilearr = doc.data;
-        console.log(this.profilearr);
     })
   },
   methods:{
       oneditpassword:function(){
             this.$prompt("Please Enter your Old password").then((text1) => {
             this.oldpassword=text1;
-            console.log(this.oldpassword);
             console.log(this.profilearr[0].empPassword);
             if(this.profilearr[0].empPassword==this.oldpassword)
             {
                     this.$prompt("Enter your new password").then((newpass)=>{
                      this.profilearr[0].empPassword=newpass;
                      emp.updateemppassword(this.profilearr[0]).then(doc=>{
-                        console.log(doc.data);
                         this.$fire({
                                 title: "Your password updated successfully",
                                 type: "success",
                                 timer: 3000
                                 }).then(r => {
-                                console.log(r.value);
                         });
 
                         this.$router.push("/memberProfile");
@@ -143,14 +132,13 @@ export default {
             else
             {
                     this.$fire({
-					title: "Password Doesn't Match",
-					type: "warning",
-					timer: 3000
-					}).then(r => {
-						console.log(r.value);
-                    });
-            }
-        });
+                    title: "Password Doesn't Match",
+                    type: "warning",
+                    timer: 3000
+                    }).then(r => {
+                            });
+                      }
+                  });
 
 
       }

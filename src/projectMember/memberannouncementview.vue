@@ -6,12 +6,11 @@
                 <div class="block-header">
                     <div class="row">
                         <div class="col-lg-6 col-md-8 col-sm-12">
-                            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a>Announcements</h2>
+                            <h2><a href="javascript:void(0);"></a>Announcements</h2>
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
+                                <li style="margin-top:5px;" class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
                                 </li>
-                                <li class="breadcrumb-item active">Announcements</li>
+                                <li style="margin-top:5px;" class="breadcrumb-item active">Announcements</li>
                             </ul>
                         </div>
                     </div>
@@ -65,17 +64,9 @@
                                             </tr>
                                         </tbody>
 
-                                        <tbody v-else>
-                                          <tr>
-                                                <td></td>
-                                                <td>
-                                                    <div class="body">
-                                                        <div>
-                                                        <p style="margin-left:40px;font-size:15px;color:red;"><b><i style="font-size:15px;" class="fa fa-bell-slash" aria-hidden="true"></i>&nbsp; No Announcements for today ...</b></p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                        <tbody v-else><br>
+                                         <p style="font-size:15px;color:red;"><b><i style="font-size:15px;" class="fa fa-bell-slash" aria-hidden="true"></i>&nbsp; No Announcements for today ...</b></p>
+
                                         </tbody>
 
                                     </table>
@@ -112,8 +103,9 @@
 
                                         <thead>
                                             <tr>
+                                                <th>Project Name</th>
                                                 <th>ProjectAnnouncement Title</th>
-                                                <th>ProjectAnnouncement Content</th>
+                                                <th>ProjectAnnouncement <br>Content</th>
                                                 <th>ProjectAnnouncement Date</th>
                                                 <th>ProjectAnnouncement Time</th>
                                             </tr>
@@ -121,7 +113,8 @@
 
                                         <tbody v-if="flag1">
                                             <tr v-for="(item,id) in projectannArr" v-bind:key="id">
-                                                 <td class="project-title">
+                                                <td>{{item.projectName}}</td>
+                                                <td class="project-title">
                                                   {{item.projectAnnouncementTitle}}
                                                 </td>
                                                 <td class="project-title">
@@ -135,17 +128,9 @@
                                             </tr>
                                         </tbody>
 
-                                        <tbody v-else>
-                                            <tr>
-                                                <td></td>
-                                                <td>
-                                                    <div class="body">
-                                                        <div>
-                                                        <p style="margin-left:5%;font-size:15px;color:red;"><b><i style="font-size:15px;" class="fa fa-bell-slash" aria-hidden="true"></i>&nbsp; No project announcements for today ...</b></p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                        <tbody v-else><br>
+                                                <p style="font-size:15px;color:red;"><b><i style="font-size:15px;" class="fa fa-bell-slash" aria-hidden="true"></i>&nbsp; No project announcements for today ...</b></p>
+
                                         </tbody>
 
 

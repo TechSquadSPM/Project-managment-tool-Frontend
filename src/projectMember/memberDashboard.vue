@@ -6,12 +6,11 @@
                 <div class="block-header">
                     <div class="row">
                         <div class="col-lg-6 col-md-8 col-sm-12">
-                            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a> Project Dashboard</h2>
+                            <h2></a>Dashboard</h2>
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><router-link to=""><i class="icon-home"></i></router-link>
+                                <li style="margin-top:5px;" class="breadcrumb-item"><router-link to=""><i class="icon-home"></i></router-link>
                                 </li>
-                                <li class="breadcrumb-item active">Project Dashboard</li>
+                                <li style="margin-top:5px;"  class="breadcrumb-item active">Dashboard</li>
                             </ul>
                         </div>
 
@@ -370,7 +369,7 @@ button:hover {
   tr:hover{
       background-color: f1f1f1;
   }
-  h2,th,td{
+  th,td{
       font-size:16px;
       font-family:'Times New Roman', Times, serif;
       font-style: fa-bold;

@@ -7,11 +7,6 @@
           <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-12">
               <h2>
-                <a
-                  href="javascript:void(0);"
-                  class="btn btn-xs btn-link btn-toggle-fullwidth"
-                  ><i class="fa fa-arrow-left"></i
-                ></a>
                 Create New Project
               </h2>
               <ul class="breadcrumb">
@@ -106,6 +101,7 @@
                       <input
                         type="text"
                         id="receivedate"
+                        v-bind:data-date-end-date="receiveval"
                         data-provide="datepicker"
                         data-date-autoclose="true"
                         class="form-control"
@@ -120,6 +116,7 @@
                       <input
                         type="text"
                         id="startdate"
+                        v-bind:data-date-start-date="startval"
                         data-provide="datepicker"
                         data-date-autoclose="true"
                         class="form-control"
@@ -134,6 +131,7 @@
                       <input
                         type="text"
                         id="deadline"
+                        v-bind:data-date-start-date="startval"
                         data-provide="datepicker"
                         data-date-autoclose="true"
                         class="form-control"
@@ -147,10 +145,10 @@
                     <!-- <label>Type</label> -->
                     <div class="form-group">
                       <input
-                        type="number"
+                        type="tel" maxlength="2" class="js-input-mobile form-control"
                         id="teamsizeid"
                         @change="onselectteamsize"
-                        class="form-control"
+                         @input="onselectteamsize"
                         placeholder="Team Size "
                         v-model="team.teamSize"
                       />
@@ -166,7 +164,7 @@
                         @change="onselectmembertype"
                         v-bind:disabled="teamflag"
                       >
-                        <option>Select MemberType</option>
+                        <option value="0">Select MemberType</option>
                         <option
                           v-bind:value="item.workAreaId"
                           v-for="(item, id) in workareaArr"
@@ -292,6 +290,8 @@
                       </div>
                     </vue-dropzone>
                     <label v-if="fileflag" style="color:red;">You have to Add File *</label>
+                    <label v-if="extflag" style="color:red;">File type must be in .doc,.docx,.pdf*</label>
+
                     <br />
                   </div>
                   <div class="col-sm-12">
@@ -362,7 +362,8 @@ export default {
         projectFile: "file1"
       },
       selectedfile: File,
-
+      receiveval:"",
+      startval:"+0d",
       team: {
         projectId: "",
         teamSize: "",
@@ -372,6 +373,7 @@ export default {
       workareaArr: [{}],
       description: "",
       workareaid: "",
+      extflag:false,
       empname: "",
       empid: "",
       leaderid: "",
@@ -388,10 +390,14 @@ export default {
       emparr: [{}],
       memberarr: [{}],
       membercount: 0,
-      addflag1:false
+      addflag1:false,
+      desflag:0,
+      pnameflag:0,
+      extflag:false,
     };
   },
   created() {
+    this.receiveval = new Date();
     client.getAllClient().then(doc => {
       this.clientArr = doc.data;
     });
@@ -410,10 +416,21 @@ export default {
       this.$router.push({path:'/projectview/'});
     },
     mdescription:function(){
-        document.getElementById("content").style = "border-color:lightgrey;"
+      for(let i=0;i<this.project.projectDescription.length;i++){
+        if(this.project.projectDescription[i] == " "){
+          this.desflag = 1;
+        }
+        else{
+          this.desflag = 0;
+          break;
+        }
+      }
+      document.getElementById("content").style = "border-color:lightgrey;"
     },
     onaddproject: function() {
-      var date1 = new Date(
+      var fname = this.selectedfile.name;
+      var ext=fname.split('.')[1];
+       var date1 = new Date(
         $("#receivedate")
           .datepicker()
           .val()
@@ -443,7 +460,11 @@ export default {
       if (this.project.projectName == "") {
         document.getElementById("pname").focus();
         document.getElementById("pname").style = "border-color:red;";
-      } else if (document.getElementById("pdomain").value == "0") {
+      }else if (this.pnameflag==1) {
+        document.getElementById("pname").focus();
+        document.getElementById("pname").style = "border-color:red;";
+      }
+      else if (document.getElementById("pdomain").value == "0") {
         document.getElementById("pdomain").focus();
         document.getElementById("pdomain").style = "border-color:red;";
       } else if (document.getElementById("ptype").value == "0") {
@@ -472,8 +493,15 @@ export default {
         document.getElementById("content").focus();
         document.getElementById("content").style="border-color:red";
       }
+      else if(this.desflag == 1){
+        document.getElementById("content").focus();
+        document.getElementById("content").style="border-color:red";
+      }
       else if(this.selectedfile.name == "File"){
           this.fileflag = true;
+      }
+      else if(ext!='docx' && ext!='pdf' && ext!='doc'){
+          this.extflag=true;
       }
       else {
         const fd = new FormData();
@@ -500,23 +528,32 @@ export default {
                   teammember
                     .addteamMember(this.teamId, this.memberarr[i].empId)
                     .then(doc => {
-                      console.log(doc);
                     this.$fire({
                     title: "Project Added successfully",
                     type: "success",
                     timer: 3000
                     }).then(r => {
-                    console.log(r.value);
                     });
                     });
+                    this.$router.push({path:'/projectview/'});
                 }
               });
           });
           this.addflag1 = true;
         });
       }
-    },
+     },
     onpname: function() {
+     for(let i=0;i<this.project.projectName.length;i++){
+        if(this.project.projectName[i] == " "){
+          this.pnameflag = 1;
+        }
+        else{
+          this.pnameflag = 0;
+          break;
+        }
+      }
+
       document.getElementById("pname").style = "border-color:lightgrey;";
     },
     onselectclient: function(event) {
@@ -537,6 +574,7 @@ export default {
     },
     onfilecancel:function(){
        this.selectedfile = File;
+       this.extflag=false;
      },
     ondescription: function() {
       document.getElementById("contenterr").innerHTML = "";
@@ -547,6 +585,17 @@ export default {
       this.team.leaderId = event.target.value;
     },
     onselectteamsize: function(event) {
+        $('body').on('keyup', '.js-input-mobile', function () {
+        var $input = $(this),
+        value = $input.val(),
+        length = value.length,
+        inputCharacter = parseInt(value.slice(-1));
+
+    if (!((length > 0 && inputCharacter >= 0 && inputCharacter <= 10) || (length === 1 && inputCharacter >= 7 && inputCharacter <= 10))) {
+        $input.val(value.substring(0, length - 1));
+     }
+    });
+
       document.getElementById("teamsizeid").style = "border-color:lightgrey;";
       if (event.target.value != "" && event.target.value <= 10) {
         this.teamflag = false;
@@ -577,8 +626,8 @@ export default {
       if (this.memberarr.length == 1) {
         this.displayflag = false;
         this.memberflag = true;
+        this.teamflag = false;
       }
-      this.teamflag = false;
     },
     onaddmember: function() {
       if(document.getElementById("teamleaderid").value != "Select TeamLeader" ||  document.getElementById("teammemberid").value!="0"){
@@ -608,6 +657,7 @@ export default {
               }
             }
             this.membercount++;
+            this.teamflag = true;
             this.memberarr.push(doc.data[0]);
           });
           this.displayflag = true;
@@ -624,10 +674,12 @@ export default {
      }
     },
     onselectmembertype: function(event) {
+      if(event.target.value != 0){
       this.workareaid = event.target.value;
       employee.getempbyworktypeid(this.workareaid).then(doc => {
         this.emparr = doc.data;
       });
+      }
     }
   }
 };

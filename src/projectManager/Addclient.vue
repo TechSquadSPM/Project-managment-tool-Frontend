@@ -6,14 +6,7 @@
         <div class="block-header">
           <div class="row">
             <div class="col-lg-6 col-md-8 col-sm-12">
-              <h2>
-                <a
-                  href="javascript:void(0);"
-                  class="btn btn-xs btn-link btn-toggle-fullwidth"
-                  ><i class="fa fa-arrow-left"></i
-                ></a>
-                Add Clients
-              </h2>
+              <h2>Add Clients</h2>
               <ul class="breadcrumb">
                 <li class="breadcrumb-item">
                   <router-link to="/dashboard"
@@ -85,10 +78,9 @@
                   <div class="col-md-3 col-sm-12">
                     <div class="form-group">
                       <input
-                        type="number"
+                        type="tel" maxlength="10" class="js-input-mobile form-control"
                         @input="oncontact"
                         id="contact"
-                        class="form-control"
                         placeholder="Mobile No"
                         v-model="client.clientContactNo"
                       />
@@ -184,6 +176,7 @@ export default {
             alert("client added");
             console.log(doc.data);
             this.client = "";
+            this.$router.push({path:'/viewclient'});
           })
           .catch(err => {
             this.addflag = true;
@@ -200,6 +193,16 @@ export default {
       document.getElementById("email").style = "border-color:lightgrey;";
     },
     oncontact: function(event) {
+       $('body').on('keyup', '.js-input-mobile', function () {
+    var $input = $(this),
+        value = $input.val(),
+        length = value.length,
+        inputCharacter = parseInt(value.slice(-1));
+
+    if (!((length > 0 && inputCharacter >= 0 && inputCharacter <= 10) || (length === 1 && inputCharacter >= 7 && inputCharacter <= 10))) {
+        $input.val(value.substring(0, length - 1));
+     }
+    });
       if(this.client.clientContactNo.length == 10){
           document.getElementById("contacterror").innerHTML = "";
       }

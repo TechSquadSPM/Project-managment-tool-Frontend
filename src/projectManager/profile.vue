@@ -6,8 +6,7 @@
                 <div class="block-header">
                     <div class="row">
                         <div class="col-lg-6 col-md-8 col-sm-12">
-                            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a> Profile</h2>
+                            <h2>Profile</h2>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><router-link to="/dashboard"><i class="icon-home"></i></router-link></li>
                                 <li class="breadcrumb-item active">Profile / </li>
@@ -65,15 +64,7 @@
 										<span>{{profilearr[0].empEmailId}}</span>
 									</div>
 								</div>
-								<div class="profile-info-row">
-									<div style="color: #667E99;"> Location </div>
-
-									<div class="profile-info-value">
-										<i class="fa fa-map-marker light-orange bigger-110"></i>
-										<span>Ahmedabad</span>
-									</div>
-								</div>
-
+								
 								<div class="profile-info-row">
 									<div style="color: #667E99;"> Contact No. </div>
 

@@ -6,12 +6,13 @@
                 <div class="block-header">
                     <div class="row">
                         <div class="col-lg-6 col-md-8 col-sm-12">
-                            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a> Add Module</h2>
+                            <h2><a href="javascript:void(0);"></a> Add Module</h2>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><router-link to="/memberdashboard"><i class="icon-home"></i></router-link></li>
-                                <li class="breadcrumb-item">Projects</li>
-                                <li class="breadcrumb-item active">Add Module</li>
+                               <li style="margin-top:5px;" class="breadcrumb-item">Project</li>
+                               <li style="margin-top:5px;" class="breadcrumb-item active">View Projects</li>
+                               <li style="margin-top:5px;" class="breadcrumb-item active">Project Details</li>
+                               <li style="margin-top:5px;" class="breadcrumb-item active">Add Module</li>
                             </ul>
                         </div>
                     </div>
@@ -30,13 +31,13 @@
 
                                    <div class="col-md-4 col-sm-12">
                                         <div class="form-group">
-                                       <input type="text" id="startdate" data-provide="datepicker" data-date-autoclose="true"
+                                       <input type="text" v-bind:data-date-start-date="startval" id="startdate" name="startdate" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="Start Date" autocomplete="off">
                                       </div>
                                     </div>
                                     <div class="col-md-4 col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" id="deadline" data-provide="datepicker" data-date-autoclose="true"
+                                            <input @click="ondeadlineclick" type="text" v-bind:data-date-start-date="deadlineval" id="deadline" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="DeadLine" autocomplete="off">
                                         </div>
                                     </div>
@@ -104,14 +105,14 @@
 
                                    <div class="col-md-4 col-sm-12">
                                       <div class="form-group">
-                                       <input type="text" id="startdate1" data-provide="datepicker" data-date-autoclose="true"
+                                       <input type="text" v-bind:data-date-start-date="startval" id="startdate1" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="Start Date">
                                       </div>
                                     </div>
 
                                     <div class="col-md-4 col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" id="deadline1" data-provide="datepicker" data-date-autoclose="true"
+                                            <input type="text" v-bind:data-date-start-date="deadlineval" id="deadline1" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="DeadLine">
                                         </div>
                                     </div>
@@ -181,12 +182,14 @@
 </template>
 
 <script>
+
 import team from '../services/Team'
 import emp from '../services/employee'
 import module from '../services/module'
 import moduleassign from '../services/moduleassign'
 import subModule from '../services/submodule'
 import project from '../services/project'
+
 export default {
     data:function(){
       return{
@@ -217,6 +220,9 @@ export default {
         moduleId:'',
         displayflag:0,
         addsuccessflag:false,
+        startval:"+0d",
+        deadlineval:"+0d",
+        cnt:29,
         memberarr:[{}],
         submoduleflag:false,
         moduleflag:false,
@@ -231,14 +237,15 @@ export default {
         },
       }
     },
-    created(){
-      this.moduleArr.projectId = this.$route.params.projectId;
+    mounted(){
+    this.moduleArr.projectId = this.$route.params.projectId;
       this.empId = localStorage.getItem('empId');
       team.getteamByprojectID(this.moduleArr.projectId).then(doc=>{
           this.teamarr = doc.data;
       })
     },
     methods:{
+
       oncreate:function(){
             if(this.moduleArr.moduleName == ""){
                 document.getElementById("mname").focus();
@@ -372,8 +379,23 @@ export default {
           }
 
       },
+
+      ondeadlineclick:function(){
+        /* var s = $("#startdate").datepicker("getDate");
+        var today = new Date();
+        if(s.getDate() == today.getDate() && s.getMonth() == today.getMonth() && s.getFullYear() == today.getFullYear())
+        {
+          this.deadlineval = "+0d";
+        }
+        else{
+        var diff = parseInt((s.getTime()-today.getTime())/(24*3600*1000));
+        diff = diff + 1;
+        this.deadlineval = "";
+        this.deadlineval = "+" + diff + "d";
+       } */
+      },
       oncancel:function(){
-        this.$router.push({path:'/memberprojectdetails/' + localStorage.getItem("projectId")});
+       this.$router.push({path:'/memberprojectdetails/' + localStorage.getItem("projectId")});
       },
       onmname:function(){
         document.getElementById("mname").style = "border-color:lightgrey;"

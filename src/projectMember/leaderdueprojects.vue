@@ -6,12 +6,10 @@
                 <div class="block-header">
                     <div class="row">
                         <div class="col-lg-6 col-md-8 col-sm-12">
-                            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a> Projects List</h2>
+                            <h2><a href="javascript:void(0);"></a>Due Project Submission</h2>
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
-                                <li class="breadcrumb-item">Projects</li>
-                                <li class="breadcrumb-item active">Due project submission</li>
+                                <li style="margin-top:5px;" class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
+                                <li style="margin-top:5px;" class="breadcrumb-item active">Due Project Submission</li>
                             </ul>
                         </div>
                     </div>
@@ -29,7 +27,7 @@
                                     </div>
                                 </div>
                         <div class="card" v-if="projectarr.length!=0">
-                            
+
                             <div class="body project_report">
                                 <div class="table-responsive" v-if="projectarr.length!=0">
 
@@ -39,9 +37,9 @@
                                     <md-table-cell md-label="Project Name" style="text-transform: uppercase;" v-if="item.projectStatus=='Ready to deploy' && item.leaderId == empId" md-sort-by="projectName"><span style="color:black;"><b>{{ item.projectName}}</b></span><label style="color:blue;font-size:12px;">&nbsp;(Leader)</label></md-table-cell>
                                     <md-table-cell md-label="Project Domain" md-sort-by="projectDomain" v-if="item.projectStatus=='Ready to deploy' && item.leaderId == empId">{{ item.projectDomain}}</md-table-cell>
                                     <md-table-cell md-label="Deadline" md-sort-by="projectDeadline" v-if="item.projectStatus=='Ready to deploy' && item.leaderId == empId"><span style="color:red;">{{item.projectDeadline | moment("Do MMMM YYYY")}}</span></md-table-cell>
-                                    
+
                                     <md-table-cell v-if="item.projectStatus=='Ready to deploy' && item.leaderId == empId" md-label="Status" md-sort-by="projectStatus"><span class="badge badge-warning"><strong>{{item.projectStatus}}</strong></span></md-table-cell>
-                                    
+
                                     <md-table-cell md-label="Details">
                                     <button v-if="item.projectStatus=='Ready to deploy' && item.leaderId == empId" @click="ondetails(item.projectId)" class="btn btn-sm btn-outline-success">Details</button>
                                     </md-table-cell>
@@ -104,7 +102,7 @@ export default {
     })
   },
   methods:{
-    
+
     onclickreadytodeploy:function(){
         project.getprojectBystatusandempid("Ready to deploy",this.empId).then(doc=>{
           this.projectarr = doc.data;
@@ -139,7 +137,7 @@ export default {
   tr:hover{
       background-color: f1f1f1;
   }
-  h2,th,td{
+  th,td{
       font-size:16px;
       font-family:'Times New Roman', Times, serif;
       font-style: fa-bold;

@@ -6,9 +6,10 @@
                 <div class="block-header">
                     <div class="row">
                         <div class="col-lg-6 col-md-8 col-sm-12">
-                            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a>{{clientName}}</h2>
+                            <h2><a href="javascript:void(0);"></a>Past Projects</h2>
                             <ul class="breadcrumb">
+                              <li style="margin-top:5px;" class="breadcrumb-item"><router-link to="/memberDashboard"><i class="icon-home"></i></router-link>
+                              <li style="margin-top:5px;" class="breadcrumb-item active">Past Projects</li>
 
                             </ul>
                         </div>
@@ -41,7 +42,7 @@
                                                         href="project-detail.html">{{item.projectName}}</a></h6>
                                                  <p>{{item.projectDescription}}</p>
                                                   <p><b>Deployment Date :-</b> <br><span style="color:blue;">{{item.projectEndDate | moment("Do MMMM YYYY")}}</span></p>
-                                                  <button @click="onprojectdetails(item.projectId)" class="button button1" style="margin-left:50px;">Project Detail</button>
+                                                  <button @click="onprojectdetails(item.projectId)" class="button button1" style="margin-left:50px;">Project Details</button>
                                             </div>
                                         </div>
                                     </div>
@@ -91,11 +92,16 @@ export default {
               this.projectIdle.push(doc.data[i]);
             }
          }
+        this.projectreadytodeploy.sort(function(a, b) {
+        var c = new Date(a.projectEndDate);
+        var d = new Date(b.projectEndDate);
+        return c-d;
+});
+
     })
-    
+
     this.projectreadytodeploy.splice(0,1);
     this.projectreadytodeploycal.splice(0,1);
-
   },
   methods:{
     onprojectdetails:function(id){

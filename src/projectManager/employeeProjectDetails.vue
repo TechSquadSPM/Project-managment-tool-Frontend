@@ -6,10 +6,11 @@
                 <div class="block-header">
                     <div class="row">
                         <div class="col-lg-6 col-md-8 col-sm-12">
-                            <h2><a href="javascript:void(0);" class="btn btn-xs btn-link btn-toggle-fullwidth"><i
-                                        class="fa fa-arrow-left"></i></a>{{clientName}}</h2>
+                            <h2>Your projects list</h2>
                             <ul class="breadcrumb">
-
+                                <li class="breadcrumb-item"><router-link to="/dashboard"><i class="icon-home"></i></router-link></li>
+                                <li class="breadcrumb-item">{{clientName}}</li>
+                                <li class="breadcrumb-item active">Project details</li>
                             </ul>
                         </div>
 
