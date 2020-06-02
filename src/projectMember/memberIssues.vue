@@ -324,7 +324,7 @@ export default {
           for(let j=(index+1);j<this.selectedfile.name.length;j++){
             ext = ext + this.selectedfile.name[j];
           }
-         if(ext == "jpg" || ext == "JPG" || ext == "jpeg" || ext == "JPEG" || ext == "png" || ext == "PNG" || ext == "gif" || ext == "GIF" ||  ext == "tiff" || ext == "TIFF" || ext == "docx" || ext == "DOCX" || ext == "pdf" || ext == "PDF" ||  ext == "DOC" || ext == "doc"){
+         if(ext == "jpg" || ext == "JPG" || ext == "jpeg" || ext == "JPEG" || ext == "txt" || ext == "TXT" || ext == "png" || ext == "PNG" || ext == "gif" || ext == "GIF" ||  ext == "tiff" || ext == "TIFF" || ext == "docx" || ext == "DOCX" || ext == "pdf" || ext == "PDF" ||  ext == "DOC" || ext == "doc"){
             this.extflag = false;
             fd.append("issueData",this.issueArr.issueData);
             fd.append("issueFile",this.selectedfile,this.selectedfile.name);

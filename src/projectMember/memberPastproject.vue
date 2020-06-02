@@ -38,8 +38,8 @@
                                             <div class="body text-left pro-img">
                                                 <img class="mx-auto d-block mb-3" src="../assets/images/projects/01.png"
                                                     alt="">
-                                                <h6 class="project-title text-primary mb-3"><a
-                                                        href="project-detail.html">{{item.projectName}}</a></h6>
+                                                <h6 class="project-title text-primary mb-3">
+                                                    <router-link v-bind:to="'/memberprojectdetails/' + item.projectId">{{item.projectName}}</router-link></h6>
                                                  <p>{{item.projectDescription}}</p>
                                                   <p><b>Deployment Date :-</b> <br><span style="color:blue;">{{item.projectEndDate | moment("Do MMMM YYYY")}}</span></p>
                                                   <button @click="onprojectdetails(item.projectId)" class="button button1" style="margin-left:50px;">Project Details</button>

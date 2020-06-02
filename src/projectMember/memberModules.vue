@@ -51,13 +51,13 @@
                                     <md-table-row v-bind:style="color1(index)" slot="md-table-row" slot-scope="{ item , index }" >
 
                                     <md-table-cell v-if="dflag == 1">
-                                      <a v-if="item.moduleStatus!='Ready to deploy'" @click="ondelete(item.moduleId,index)" href="javascript:void(0);" class="btn btn-sm btn-outline-danger" title="Delete" data-type="confirm"><i class="icon-trash"></i></a>
+                                      <a v-if="item.moduleStatus!='Ready to deploy' && item.moduleStatus!='Deployed'" @click="ondelete(item.moduleId,index)" href="javascript:void(0);" class="btn btn-sm btn-outline-danger" title="Delete" data-type="confirm"><i class="icon-trash"></i></a>
                                       <a v-if="item.moduleStatus=='Ready to deploy'" disabled @click="ondelete(item.moduleId,index)" href="javascript:void(0);" class="btn btn-sm btn-outline-danger" title="Delete" data-type="confirm"><i class="icon-trash"></i></a>
                                       <a v-if="item.moduleStatus=='Deployed'" disabled @click="ondelete(item.moduleId,index)" href="javascript:void(0);" class="btn btn-sm btn-outline-danger" title="Delete" data-type="confirm"><i class="icon-trash"></i></a>
                                     </md-table-cell>
 
                                     <md-table-cell v-if="dflag == 1">
-                                      <a  v-if="item.moduleStatus!='Ready to deploy'" @click="onedit(item.moduleId)" style="margin-left:-50px;" href="javascript:void(0);" class="btn btn-sm btn-outline-success" title="Delete" data-type="confirm"><i class="icon-pencil"></i></a>
+                                      <a  v-if="item.moduleStatus!='Ready to deploy' && item.moduleStatus!='Deployed'" @click="onedit(item.moduleId)" style="margin-left:-50px;" href="javascript:void(0);" class="btn btn-sm btn-outline-success" title="Delete" data-type="confirm"><i class="icon-pencil"></i></a>
                                       <a  v-if="item.moduleStatus=='Ready to deploy'" disabled @click="onedit(item.moduleId)" style="margin-left:-50px;" href="javascript:void(0);" class="btn btn-sm btn-outline-success" title="Delete" data-type="confirm"><i class="icon-pencil"></i></a>
                                       <a  v-if="item.moduleStatus=='Deployed'" disabled @click="onedit(item.moduleId)" style="margin-left:-50px;" href="javascript:void(0);" class="btn btn-sm btn-outline-success" title="Delete" data-type="confirm"><i class="icon-pencil"></i></a>
                                     </md-table-cell>

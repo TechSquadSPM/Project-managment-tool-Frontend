@@ -23,7 +23,7 @@
                             <div class="body">
                                 <h5>Idle Projects </h5>
                                 <br>
-                                <td v-if="projectIdle.length==0" style="font-size:15px; text-align:center;color:red;font-family: serif;"><i class="fa fa-bell-slash" aria-hidden="true"></i> No idle projects ...</td>
+                                <span v-if="projectIdle.length==0" style="font-size:17px;margin-left:40%;text-align:center;color:red;font-family: serif;">No idle projects ...</span>
 
                                 <div class="row clearfix">
                                     <div class="col-lg-3 col-md-6 col-sm-12"  v-for="(item,id) in projectIdle" v-bind:key="id">
@@ -92,7 +92,7 @@
                             <div class="body">
                                 <h5>Ready to deploy Projects </h5>
                                 <br>
-                                <span v-if="projectreadytodeploy.length==0" style="font-size:17px;margin-left:40%;text-align:center;color:red;font-family: serif;">No data ...</span>
+                                <span v-if="projectreadytodeploy.length==0" style="font-size:17px;margin-left:40%;text-align:center;color:red;font-family: serif;">No Ready to deployed ...</span>
 
                                 <div class="row clearfix">
                                     <div class="col-lg-3 col-md-6 col-sm-12"  v-for="(item,id) in projectreadytodeploy" v-bind:key="id" >

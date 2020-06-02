@@ -168,11 +168,8 @@ export default {
 
    anceclass.getAllannouncement().then(doc=>{
         console.log(doc);
-        for(let i=0;i<doc.data.length;i++)
-        {
-            this.ancearr=doc.data;
-            console.log(this.ancearr);
-        }
+        this.ancearr=doc.data;
+        
     })
 
     anceclass.getAllprojectannouncement().then(doc=>{

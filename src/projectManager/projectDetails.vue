@@ -49,7 +49,6 @@
                             <div class="body">
                                 <ul class=" list-unstyled basic-list">
                                     <li>Started:<span class="badge-purple badge">{{projectarr.projectStartDate | moment("Do MMMM YYYY")}}</span></li>
-                                    <li v-if="projectarr.projectStatus=='Ready to deploy'">EndDate:<span class="badge-dang badge ">{{projectarr.projectEndDate | moment("Do MMMM YYYY")}}</span></li>
                                     <li>Deadline:<span class="badge-dang badge ">{{projectarr.projectDeadline | moment("Do MMMM YYYY")}}</span></li>
                                     <li>Status<span class="badge-info badge">{{projectarr.projectStatus}}</span></li>
                                     <li v-if="projectarr.projectStatus!='cancelled'">Team Size:<span class="badge-danger badge">{{teamsize}}</span></li>
@@ -66,7 +65,7 @@
                                 <div class="w_user">
                                   <h3 v-if="teamarr[0].leaderId==null">No leader</h3>
                                   <div v-if="teamarr[0].leaderId!=null">
-                                  <img class="rounded-circle" style="height:70px;width:60px;" v-bind:src="'http://localhost:3000/images/Employees/' + leaderdetail.empProfile" alt="">
+                                  <img  class="rounded-circle" style="height:70px;width:60px;" v-bind:src="'http://localhost:3000/images/Employees/' + leaderdetail.empProfile" alt="">
                                     <div class="wid-u-info">
                                         <h5>{{leaderdetail.empFirstName}}</h5>
                                         <span>{{leaderdetail.empEmailId}}</span>
@@ -76,9 +75,11 @@
                                   </div>
                                    <hr>
                                 </div>
+
                                 <ul class="right_chat list-unstyled mb-0">
+                                 <h3 v-if="teamarr.length==1">No Members</h3>
                                     <li class="online" v-for="(item,id) in teamarr" v-bind:key="id">
-                                        <a href="javascript:void(0);">
+                                        <a v-if="teamarr.length>1" href="javascript:void(0);">
                                             <div class="media">
                                                 <img class="media-object " v-bind:src="'http://localhost:3000/images/Employees/' + item.empProfile" alt="">
                                                 <div class="media-body">
@@ -177,7 +178,7 @@
                          <div  class="card">
                           <div class="body">
                            <div class="row clearfix">
-                              <div class="col-md-12 col-sm-12">
+                              <div v-if="teamsize==0" class="col-md-12 col-sm-12">
                             <div class="form-group">
                               <select
                                 class="form-control show-tick"
@@ -220,7 +221,7 @@
                               <button @click="onaddteammember"
                                 type="submit"
                                 class="btn btn-primary"
-                                v-bind:disabled="empid=='' || workareaid==0"
+                                v-bind:disabled="empid==''"
                                 data-dismiss="modal"
                               >
                                 Add
@@ -289,6 +290,7 @@ export default
       delname:'Member',
       sum:0,
       col:'',
+      workareatype:'',
       lflag:false,
       addflag:false,
       emparr:[{}],
@@ -348,12 +350,26 @@ export default
             }
         }
         this.teamsize = this.teamarr[0].teamSize;
+        this.workareatype = this.teamarr[0].workAreaId;
         if(this.teamarr[0].leaderId == null){
           this.teamleaderflag = false;
           this.addmember = "#addmember";
         }
 
     })
+
+    employee.getallemp().then(doc => {
+           this.emparr = doc.data;
+           teammember.getteambyteamid(this.teamarr[0].teamId).then(doc1=>{
+           for(let i=0;i<this.emparr.length;i++){
+              for(let j=0;j<doc1.data.length;j++){
+                if(this.emparr[i].empId == doc1.data[j].empId){
+                  this.emparr.splice(i,1);
+                }
+              }
+            }
+        })
+        });
 
   },
   methods:{
@@ -429,6 +445,7 @@ export default
            });
              this.empid='';
             this.workareaid=0;
+            this.lflag = false;
 
           })
     },
@@ -463,7 +480,10 @@ export default
      },
     onaddteamleader:function(){
         document.getElementById("teammemberid").value = "0";
+
+        if(this.teamsize == 0){
         document.getElementById("type").value = "0";
+        }
 
         this.memberflag = true;
         this.lflag = true;
@@ -471,7 +491,22 @@ export default
         this.workareaArr = doc.data;
         });
 
-        employee.getallemp().then(doc => {
+  if(this.teamsize != 0){
+  employee.getempbyworktypeid(this.workareatype).then(result => {
+        this.emparr = result.data;
+        teammember.getteambyteamid(this.teamarr[0].teamId).then(doc1=>{
+              for(let i=0;i<doc1.data.length;i++){
+              for(let j=0;j<this.emparr.length;j++){
+                if(this.emparr[j].empId == doc1.data[i].empId){
+                  this.emparr.splice(j,1);
+                }
+              }
+            }
+        })
+      });
+  }
+  else{
+    employee.getallemp().then(doc => {
            this.emparr = doc.data;
            teammember.getteambyteamid(this.teamarr[0].teamId).then(doc1=>{
            for(let i=0;i<this.emparr.length;i++){
@@ -482,14 +517,16 @@ export default
               }
             }
         })
-        });
-
-
+    });
+  }
 
     },
     onaddmember:function(){
         document.getElementById("teammemberid").value = "0";
+
+        if(this.teamsize == 0){
         document.getElementById("type").value = "0";
+        }
 
         this.memberflag = true;
 
@@ -497,7 +534,22 @@ export default
         this.workareaArr = doc.data;
         });
 
-        employee.getallemp().then(doc => {
+      if(this.teamsize != 0){
+      employee.getempbyworktypeid(this.workareatype).then(result => {
+        this.emparr = result.data;
+        teammember.getteambyteamid(this.teamarr[0].teamId).then(doc1=>{
+              for(let i=0;i<doc1.data.length;i++){
+              for(let j=0;j<this.emparr.length;j++){
+                if(this.emparr[j].empId == doc1.data[i].empId){
+                  this.emparr.splice(j,1);
+                }
+              }
+            }
+        })
+      });
+      }
+      else{
+         employee.getallemp().then(doc => {
            this.emparr = doc.data;
            teammember.getteambyteamid(this.teamarr[0].teamId).then(doc1=>{
            for(let i=0;i<this.emparr.length;i++){
@@ -509,7 +561,7 @@ export default
             }
         })
         });
-
+      }
 
 
     },
@@ -522,7 +574,7 @@ export default
                     type: "success",
                     timer: 3000
                     }).then(r => {
-                    console.log(r.value);
+                    this.onclear();
                     });
                     });
     },

@@ -30,14 +30,15 @@
                                     </div>
 
                                    <div class="col-md-4 col-sm-12">
-                                        <div class="form-group">
-                                       <input type="text" v-bind:data-date-start-date="startval" id="startdate" name="startdate" data-provide="datepicker" data-date-autoclose="true"
+                                        <div class="form-group"> 
+                                            
+                                       <input type="text"  id="startdate"  v-bind:data-date-start-date="startval"  name="startdate" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="Start Date" autocomplete="off">
                                       </div>
                                     </div>
                                     <div class="col-md-4 col-sm-12">
                                         <div class="form-group">
-                                            <input @click="ondeadlineclick" type="text" v-bind:data-date-start-date="deadlineval" id="deadline" data-provide="datepicker" data-date-autoclose="true"
+                                            <input @click="ondeadlineclick" v-bind:data-date-start-date="deadlineval" type="text"  id="deadline" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="DeadLine" autocomplete="off">
                                         </div>
                                     </div>
@@ -105,14 +106,15 @@
 
                                    <div class="col-md-4 col-sm-12">
                                       <div class="form-group">
-                                       <input type="text" v-bind:data-date-start-date="startval" id="startdate1" data-provide="datepicker" data-date-autoclose="true"
+                                       <input type="text" v-bind:data-date-start-date="startval"  id="startdate1" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="Start Date">
                                       </div>
                                     </div>
 
                                     <div class="col-md-4 col-sm-12">
                                         <div class="form-group">
-                                            <input type="text" v-bind:data-date-start-date="deadlineval" id="deadline1" data-provide="datepicker" data-date-autoclose="true"
+                                            
+                                            <input type="text" v-bind:data-date-start-date="deadlineval"  id="deadline1" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="DeadLine">
                                         </div>
                                     </div>

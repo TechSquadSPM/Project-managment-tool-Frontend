@@ -302,8 +302,6 @@ export default {
     }
   },
   created(){
-
-
     /*
     console.log(this.series1[0].data[0]); */
     this.emailId = this.$route.params.email;
@@ -325,9 +323,7 @@ export default {
       this.OnGoingProjectCnt = doc.data.length;
     })
     dashboardclass.getAllProject().then(doc=>{
-        console.log(doc);
         var pos=0;;
-
         for(let i=0;i<doc.data.length;i++)
         {
             if(doc.data[i].projectStatus == 'inprogress'){
@@ -370,7 +366,7 @@ export default {
     })
 
     for(let i=0;i<12;i++){
-        dashboardclass.getProjectDateCount(i).then(doc=>{
+        dashboardclass.getProjectDateCount(i+1).then(doc=>{
             dataSource.data[i].value = doc.data[0].count;
        /*       this.series1[0].data[i] = doc.data[0].count;
        */  })

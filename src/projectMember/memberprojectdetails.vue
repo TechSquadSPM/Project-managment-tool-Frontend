@@ -57,7 +57,6 @@
                             <div class="body">
                                 <ul class=" list-unstyled basic-list">
                                     <li>Started:<span class="badge-purple badge">{{projectarr.projectStartDate | moment("Do MMMM YYYY")}}</span></li>
-                                    <li v-if="projectarr.projectStatus=='Ready to deploy'">EndDate:<span class="badge-dang badge ">{{projectarr.projectEndDate | moment("Do MMMM YYYY")}}</span></li>
                                     <li>Deadline:<span class="badge-dang badge ">{{projectarr.projectDeadline | moment("Do MMMM YYYY")}}</span></li>
                                     <li>Status<span class="badge-info badge">{{projectarr.projectStatus}}</span></li>
                                     <li v-if="projectarr.projectStatus!='cancelled'">Team Size:<span class="badge-danger badge">{{teamsize}}</span></li>
@@ -113,7 +112,7 @@
                                      <div class="timeline-item danger">
                                     <h5>Project Modules</h5>
                                     <br>
-                                    <td v-if="modulearr.length==0" style="text-align:center;font-size:15px;color:red;font-family: serif;"><i class="fa fa-bell-slash" aria-hidden="true"></i> No Modules Created ...</td>
+                                    <td v-if="modulearr.length==0" style="text-align:center;font-size:15px;color:red;font-family: serif;"> No modules created ...</td>
 
                                     <!-- <span>By: <a href="javascript:void(0);" title="Fidel Tonn">Fidel Tonn</a></span> -->
                                     <div class="msg">
@@ -209,6 +208,9 @@ export default {
           this.col = "col-lg-4 col-md-12"
         }
     })
+  },
+  destroyed(){
+    this.modulearr = [{}];
   },
   methods:{
       ondeployeproject:function(){

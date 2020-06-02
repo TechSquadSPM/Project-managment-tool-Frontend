@@ -78,6 +78,7 @@ export default {
     var today =  new Date(),nowMonth = today.getMonth(),nowYear = today.getFullYear()
     return {
       projectarr:[{}],
+      projectarr1:[{}],
       prevYears: 10,  // number of years before current date
       futureYears: 10,
       nowMonth,
@@ -109,7 +110,21 @@ export default {
               vm.eventsArray.push(vm.newEvent(day,month,year,doc.data[i].projectName));
           }
     })
-
+    calender.getongoingproject("idle").then(doc=>{
+          this.projectarr1=doc.data;
+          for(let i=0;i<doc.data.length;i++)
+          {
+              console.log(doc.data[i].projectDeadline);
+              var year=doc.data[i].projectDeadline.slice(0,4);
+              var month=doc.data[i].projectDeadline.slice(5,7);
+              var day=doc.data[i].projectDeadline.slice(8,10);
+              console.log(year)
+              console.log(month)
+              console.log(day)
+              var vm = this
+              vm.eventsArray.push(vm.newEvent(day,month,year,doc.data[i].projectName));
+          }
+    })
   },
   methods: {
     newEvent(day, month, year, memo, occurrence) {

@@ -14,8 +14,16 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row clearfix">
+              <div class="row clearfix" v-if="getTotalissue==0">
+                            <div class="col-sm-12">
+                                        <div class="card" >
+                                            <div class="body text-left pro-img">
+                                                <img src="../assets/images/nodeployedproject.png" style="height:350px;margin-left:20%;">
+                                            </div>
+                                        </div>
+                                    </div>
+               </div>
+                <div v-else class="row clearfix">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="body text-center">
