@@ -57,6 +57,7 @@
                         <option>Travel</option>
                         <option>Advertisement</option>
                         <option>Telecom</option>
+                        <option>Optical</option>
                       </select>
                     </div>
                   </div>
@@ -153,6 +154,7 @@
                         v-model="team.teamSize"
                       />
                       <div id="teamsizeerror" class="error-message"></div>
+                      <div v-if="teamsizeflag==true"><span style="color:red;">*size must be from 1 to {{empcnt}}</span></div>
                     </div>
                   </div>
 
@@ -335,6 +337,7 @@ import workarea from "../services/workarea";
 import employee from "../services/employee";
 import team from "../services/Team";
 import teammember from "../services/teammember";
+import dashboardclass from "../services/Dashboard";
 export default {
   components: {
     VueEditor,
@@ -369,6 +372,7 @@ export default {
         teamSize: "",
         leaderId: ""
       },
+      empcnt:0,
       clientArr: [{}],
       workareaArr: [{}],
       description: "",
@@ -394,6 +398,7 @@ export default {
       desflag:0,
       pnameflag:0,
       extflag:false,
+      teamsizeflag:false,
     };
   },
   created() {
@@ -410,6 +415,10 @@ export default {
       console.log(doc.data);
       this.emparr = doc.data;
     });
+
+    dashboardclass.getEmpcount().then(doc=>{
+      this.empcnt = doc.data[0].cnt;
+    })
   },
   methods: {
     oncancel:function(){
@@ -483,7 +492,7 @@ export default {
       } else if (document.getElementById("teamsizeid").value == "") {
         document.getElementById("teamsizeid").focus();
         document.getElementById("teamsizeid").style = "border-color:red;";
-      } else if (this.team.teamSize != this.membercount) {
+      } else if (this.team.teamSize != this.membercount && this.teamsizeflag==false) {
         document.getElementById("teammemberid").focus();
         document.getElementById("teammemberid").style = "border-color:red;";
         document.getElementById("membererr").innerHTML =
@@ -503,7 +512,13 @@ export default {
       else if(ext!='docx' && ext!='pdf' && ext!='doc'){
           this.extflag=true;
       }
+      else if(this.teamsizeflag==true)
+      {
+        document.getElementById("teamsizeid").focus();
+        document.getElementById("teamsizeid").style = "border-color:red;";
+      }
       else {
+        alert("aadded");
         const fd = new FormData();
         fd.append("projectName", this.project.projectName);
         fd.append("projectDescription", this.project.projectDescription);
@@ -585,6 +600,13 @@ export default {
       this.team.leaderId = event.target.value;
     },
     onselectteamsize: function(event) {
+        if(event.target.value>this.empcnt)
+        {
+          this.teamsizeflag=true;
+        }
+        else{
+          this.teamsizeflag=false;
+        }
         $('body').on('keyup', '.js-input-mobile', function () {
         var $input = $(this),
         value = $input.val(),

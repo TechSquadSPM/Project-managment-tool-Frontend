@@ -56,8 +56,8 @@ export default {
                     timer: 3000
                     }).then(r => {
                     console.log(r.value);
-            });/*
-            this.$router.push({path:'/'});  */
+            });
+            this.$router.push({path:'/'});
          }
     },
   },
