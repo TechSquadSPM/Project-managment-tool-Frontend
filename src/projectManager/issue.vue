@@ -72,11 +72,11 @@ export default {
     data:function(){
     return{
       projectId:'',
-      getTotalissue:'',
-      getTotalpendingissue:'',
-      getTotalresolveissue:'',
-      pendingPER:'',
-      resolvePER:'',
+      getTotalissue:0,
+      getTotalpendingissue:0,
+      getTotalresolveissue:0,
+      pendingPER:0,
+      resolvePER:0,
       series: [],
           chartOptions: {
             chart: {
@@ -115,7 +115,7 @@ export default {
             labels: ['Resolved'],
           },
           chartOptions2: {
-            chart1: {
+            chart: {
               height: 350,
               type: 'radialBar',
             },
@@ -130,59 +130,61 @@ export default {
           },
       }
   },
-  created(){
+  mounted(){
     this.projectId=this.$route.params.projectId;
-  if(!this.$route.params.projectId){
+    if(!this.$route.params.projectId){
     issueclass.gettotalissueCOUNT().then(doc=>{
       this.getTotalissue=doc.data[0].cnt;
-      console.log(this.getTotalissue);
-    })
 
-    issueclass.getTotalIssueCOUNTbystatus('resolved').then(doc=>{
-        this.getTotalresolveissue=doc.data[0].cnt;
-        this.series.push(doc.data[0].cnt);
+    issueclass.getTotalIssueCOUNTbystatus('resolved').then(doc1=>{
+        this.getTotalresolveissue = 0;
+         this.resolvePER = 0;
+        this.getTotalresolveissue=doc1.data[0].cnt;
+        this.series.push(doc1.data[0].cnt);
         this.resolvePER=(this.getTotalresolveissue*100)/this.getTotalissue;
         this.resolvePER = this.resolvePER.toFixed(2);
         this.series1.push(this.resolvePER);
     })
-    issueclass.getTotalIssueCOUNTbystatus('pending').then(doc=>{
-         this.getTotalpendingissue=doc.data[0].cnt;
-        this.series.push(doc.data[0].cnt);
+    issueclass.getTotalIssueCOUNTbystatus('pending').then(doc2=>{
+        this.getTotalpendingissue = 0;
+        this.pendingPER = 0;
+        this.getTotalpendingissue=doc2.data[0].cnt;
+        this.series.push(doc2.data[0].cnt);
         this.pendingPER=(this.getTotalpendingissue*100)/this.getTotalissue;
         this.pendingPER = this.pendingPER.toFixed(2);
         this.series2.push(this.pendingPER);
+    })
     })
 
   }
   else{
-    issueclass.gettotalprojectissueCOUNT(this.projectId).then(doc=>{
-      this.getTotalissue=doc.data[0].cnt;
-      console.log(this.getTotalissue);
-    })
+   issueclass.gettotalprojectissueCOUNT(this.projectId).then(docc=>{
+      this.getTotalissue=docc.data[0].cnt;
 
-    issueclass.getTotalprojectIssueCOUNTbystatus(this.projectId,'resolved').then(doc=>{
-        this.getTotalresolveissue=doc.data[0].cnt;
-        this.series.push(doc.data[0].cnt);
+    issueclass.getTotalprojectIssueCOUNTbystatus(this.projectId,'resolved').then(docc1=>{
+        this.getTotalresolveissue = 0;
+        this.resolvePER = 0;
+        this.getTotalresolveissue=docc1.data[0].cnt;
+        this.series.push(this.getTotalresolveissue);
         this.resolvePER=(this.getTotalresolveissue*100)/this.getTotalissue;
         this.resolvePER = this.resolvePER.toFixed(2);
         this.series1.push(this.resolvePER);
     })
-    issueclass.getTotalprojectIssueCOUNTbystatus(this.projectId,'pending').then(doc=>{
-         this.getTotalpendingissue=doc.data[0].cnt;
-        this.series.push(doc.data[0].cnt);
+    issueclass.getTotalprojectIssueCOUNTbystatus(this.projectId,'pending').then(docc2=>{
+        this.getTotalpendingissue = 0;
+        this.pendingPER = 0;
+        this.getTotalpendingissue=docc2.data[0].cnt;
+        this.series.push(this.getTotalpendingissue);
         this.pendingPER=(this.getTotalpendingissue*100)/this.getTotalissue;
         this.pendingPER = this.pendingPER.toFixed(2);
         this.series2.push(this.pendingPER);
     })
-  }
-
-    console.log(this.resolvePER);
-
-
+    })
+    }
   },
   methods:{
 
-  }
+  },
 }
 </script>
 

@@ -215,7 +215,7 @@ export default {
   methods:{
       ondeployeproject:function(){
 
-        this.$confirm("Are you sure want to Deploye this project?").then(()=>{
+        this.$confirm("Are you sure want to Deploy this project?").then(()=>{
            project.updateprojectstatus(this.$route.params.projectId,"Deployed").then(doc1=>{})
                     this.$fire({
                     title: "Project Successfully Deployed",

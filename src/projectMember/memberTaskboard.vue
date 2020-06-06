@@ -34,12 +34,13 @@
                                 <ol class="dd-list">
                                     <li v-for="(item,id) in idleSubmodulesArr" v-bind:key="id">
                                         <div class="dd-handle">
-                                            <span style="float:right;color:blue;font-size:12px;">Deadline</span><br>
-                                            <span style="float:right;color:blue;font-size:12px;">{{item.subModuleDeadline | moment("Do MMMM YYYY")}}</span><br>
+
+                                            <span style="float:right;margin-top:-20px;color:blue;font-size:12px;">Deadline</span><br>
+                                            <span style="float:right;margin-top:-20px;color:blue;font-size:12px;">{{item.subModuleDeadline | moment("Do MMMM YYYY")}}</span><br>
                                             <h6>{{item.subModuleName}}</h6>
                                             <p>{{item.subModuleDescription}}</p>
                                             <br>
-                                            <h5 v-if="btnflag"><i @click="onprogress(item)" class="fa fa-arrow-right" style="float:right;"></i></h5>
+                                            <h5 v-if="btnflag && dateflag" ><i @click="onprogress(item)" class="fa fa-arrow-right" style="float:right;"></i></h5>
                                        </div>
                                     </li>
                                 </ol>
@@ -61,8 +62,9 @@
                                 <ol class="dd-list">
                                     <li v-for="(item,id) in inprogressSubmodulesArr" v-bind:key="id">
                                         <div class="dd-handle">
-                                            <span style="float:right;color:orange;font-size:12px;">Deadline</span><br>
-                                            <span style="float:right;color:orange;font-size:12px;">{{item.subModuleDeadline | moment("Do MMMM YYYY")}}</span><br>
+
+                                            <span style="float:right;margin-top:-20px;color:orange;font-size:12px;">Deadline</span><br>
+                                            <span style="float:right;margin-top:-20px;color:orange;font-size:12px;">{{item.subModuleDeadline | moment("Do MMMM YYYY")}}</span><br>
                                             <h6>{{item.subModuleName}}</h6>
                                             <p>{{item.subModuleDescription}}</p>
                                             <br>
@@ -88,9 +90,10 @@
                                 <ol class="dd-list">
                                     <li v-for="(item,id) in readytodeploySubmodulesArr" v-bind:key="id">
                                         <div class="dd-handle">
-                                            <span style="float:right;color:green;font-size:12px;">Deadline</span><br>
-                                            <span style="float:right;color:green;font-size:12px;">{{item.subModuleDeadline | moment("Do MMMM YYYY")}}</span><br>
-                                            <h6>{{item.subModuleName}}</h6>
+
+                                            <span style="float:right;margin-top:-20px;color:green;font-size:12px;">Deadline</span><br>
+                                            <span style="float:right;margin-top:-20px;color:green;font-size:12px;">{{item.subModuleDeadline | moment("Do MMMM YYYY")}}</span><br>
+                                              <h6>{{item.subModuleName}}</h6>
                                             <p>{{item.subModuleDescription}}</p>
                                             <br>
                                             <h5 v-if="btnflag && projectarr.projectStatus!='Deployed'"><i @click="gobackprogress(item)" class="fa fa-arrow-left" style="float:left;"></i>
@@ -182,6 +185,7 @@ export default {
           addflag1:false,
           empId:'',
           addflag:0,
+          dateflag:false,
           issuestatusflag:[],
 
           submoduleArr:{
@@ -207,6 +211,24 @@ export default {
         this.updateEndDateArr.projectEndDate = date.getFullYear() + "-" + month + "-" + date.getDate();
         if(this.leaderId == this.empId) this.addflag = true;
         this.moduleId = this.$route.params.moduleId;
+
+        module.getmodulebyid(this.moduleId).then(moduledata=>{
+           var today = new Date();
+           var startdate = new Date(moduledata.data[0].moduleStartDate);
+           if(startdate.getDate() == today.getDate() && startdate.getMonth() == today.getMonth() && startdate.getFullYear() == today.getFullYear())
+           {
+             this.dateflag = true;
+           }
+           else{
+             if(startdate > today){
+               this.dateflag = false;
+             }
+             else{
+               this.dateflag = true;
+             }
+           }
+
+        })
 
         moduleassign.getempbymoduleid(this.moduleId).then(doc=>{
             for(let i=0;i<doc.data.length;i++){
@@ -240,13 +262,11 @@ export default {
         submodule.getSubModuleByModuleIdAndStatus(this.moduleId,"Ready to deploy").then(doc=>{
           this.readytodeploycount = doc.data.length;
           this.readytodeploySubmodulesArr = doc.data;
-          console.log(this.readytodeploySubmodulesArr)
         })
 
         this.projectId = this.$route.params.projectId;
         project.getprojectByID(this.projectId).then(doc=>{
         this.projectarr = doc.data[0];
-        console.log(this.projectarr)
         })
     },
     methods:{

@@ -8,7 +8,7 @@
                         <div class="col-lg-6 col-md-8 col-sm-12">
                             <h2><a href="javascript:void(0);"></a> Add Module</h2>
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><router-link to="/memberdashboard"><i class="icon-home"></i></router-link></li>
+                               <li style="margin-top:5px;" class="breadcrumb-item"><router-link to="/memberdashboard"><i  class="icon-home"></i></router-link></li>
                                <li style="margin-top:5px;" class="breadcrumb-item">Project</li>
                                <li style="margin-top:5px;" class="breadcrumb-item active">View Projects</li>
                                <li style="margin-top:5px;" class="breadcrumb-item active">Project Details</li>
@@ -30,8 +30,8 @@
                                     </div>
 
                                    <div class="col-md-4 col-sm-12">
-                                        <div class="form-group"> 
-                                            
+                                        <div class="form-group">
+
                                        <input type="text"  id="startdate"  v-bind:data-date-start-date="startval"  name="startdate" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="Start Date" autocomplete="off">
                                       </div>
@@ -113,7 +113,7 @@
 
                                     <div class="col-md-4 col-sm-12">
                                         <div class="form-group">
-                                            
+
                                             <input type="text" v-bind:data-date-start-date="deadlineval"  id="deadline1" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="DeadLine">
                                         </div>
@@ -178,6 +178,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -222,9 +223,10 @@ export default {
         moduleId:'',
         displayflag:0,
         addsuccessflag:false,
-        startval:"+0d",
-        deadlineval:"+0d",
+        startval:"",
+        deadlineval:"",
         cnt:29,
+        pagedisplayflag:false,
         memberarr:[{}],
         submoduleflag:false,
         moduleflag:false,
@@ -244,7 +246,40 @@ export default {
       this.empId = localStorage.getItem('empId');
       team.getteamByprojectID(this.moduleArr.projectId).then(doc=>{
           this.teamarr = doc.data;
+          if(this.teamarr[0].leaderId == this.empId){
+               project.getprojectByID(this.$route.params.projectId).then(doc1=>{
+                var today = new Date();
+                var startdate = new Date(doc1.data[0].projectStartDate);
+                if(startdate.getDate() == today.getDate() && startdate.getMonth() == today.getMonth() && startdate.getFullYear() == today.getFullYear())
+                {
+                  this.deadlineval = "+0d";
+                  this.startval = "+0d";
+                }
+                else{
+                if(startdate > today){
+                var diff = parseInt((startdate.getTime()-today.getTime())/(24*3600*1000));
+                diff = diff + 1;
+                this.deadlineval = "";
+                this.startval = "";
+                this.deadlineval = "+" + diff + "d";
+                this.startval = "+" + diff + "d";
+                }
+                else{
+                this.startval = "+0d";
+                this.deadlineval = "+0d";
+                }
+              }
+            })
+
+          }
+          else{
+           this.$router.push({path:'/memberdashboard'});
+          }
       })
+
+    },
+    destroyed(){
+        localStorage.removeItem('leaderId');
     },
     methods:{
 
@@ -505,6 +540,6 @@ export default {
           document.getElementById("content1").value = "";
          }
       }
-    }
+    },
 }
 </script>
