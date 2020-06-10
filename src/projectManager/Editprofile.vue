@@ -25,7 +25,7 @@
                                 <div style="margin-left:20%;" class="row clearfix">
                                     <div class="col-sm-8">
                                         <div class="form-group">
-                                            <input type="text" @input="onfname" id="fname" class="form-control" placeholder="First Name" v-model="emparr.empFirstName">
+                                            <input type="text" @input="onfname" id="fname" class="form-control" @keydown="onKeydown" placeholder="First Name" v-model="emparr.empFirstName">
                                         </div>
                                     </div>
                                     <div class="col-sm-8">
@@ -79,6 +79,18 @@ export default {
       })
     },
     methods:{
+      
+    onKeydown (event) {
+    	const char = String.fromCharCode(event.keyCode)
+      if((event.keyCode>=186 || event.keycode<=192) || (event.keycode>=219 && event.keycode<=222))
+      {
+        event.preventDefault()
+      }
+      
+    	if (/[0-9]/.test(char)) {
+      	event.preventDefault()
+      }
+    },  
       onfname:function(){
          document.getElementById("fname").style = "border-color:lightgrey;"
       },

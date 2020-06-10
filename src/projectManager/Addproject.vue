@@ -132,6 +132,7 @@
                       <input
                         type="text"
                         id="deadline"
+                        @click="onclickdeadline"
                         v-bind:data-date-start-date="startval"
                         data-provide="datepicker"
                         data-date-autoclose="true"
@@ -140,6 +141,7 @@
                         autocomplete="off"
                       />
                     </div>
+                    <p style="color:red;" v-if="deadlinelessflag">* Deadline must be greater then startdate</p>
                   </div>
 
                   <div class="col-md-2 col-sm-12">
@@ -154,7 +156,7 @@
                         v-model="team.teamSize"
                       />
                       <div id="teamsizeerror" class="error-message"></div>
-                      <div v-if="teamsizeflag==true"><span style="color:red;">*size must be from 1 to {{empcnt}}</span></div>
+                      <div v-if="teamsizeflag==true"><span style="color:red;">*size must be in between 2 to {{empcnt}}</span></div>
                     </div>
                   </div>
 
@@ -383,6 +385,7 @@ export default {
       leaderid: "",
       teamcount: "",
       checkflag: 0,
+      deadlinelessflag:false,
       teamflag: true,
       fileflag:false,
       i: 0,
@@ -421,6 +424,9 @@ export default {
     })
   },
   methods: {
+    onclickdeadline:function(){
+      this.deadlinelessflag = false
+    },
     oncancel:function(){
       this.$router.push({path:'/projectview/'});
     },
@@ -437,7 +443,9 @@ export default {
       document.getElementById("content").style = "border-color:lightgrey;"
     },
     onaddproject: function() {
-      var fname = this.selectedfile.name;
+      var ddeadline = new Date($("#deadline").datepicker().val());
+      var sstartdate = new Date($("#startdate").datepicker().val());
+       var fname = this.selectedfile.name;
       var ext=fname.split('.')[1];
        var date1 = new Date(
         $("#receivedate")
@@ -487,12 +495,21 @@ export default {
         document.getElementById("receivedate").focus();
       } else if (document.getElementById("startdate").value == "") {
         document.getElementById("startdate").focus();
-      } else if (document.getElementById("deadline").value == "") {
+      } 
+      else if (document.getElementById("deadline").value == "") {
         document.getElementById("deadline").focus();
-      } else if (document.getElementById("teamsizeid").value == "") {
+      } 
+      else if (ddeadline < sstartdate){
+        this.deadlinelessflag = true;
+        document.getElementById("deadline").focus();
+      }
+      else if (document.getElementById("teamsizeid").value == "") 
+      {
         document.getElementById("teamsizeid").focus();
         document.getElementById("teamsizeid").style = "border-color:red;";
-      } else if (this.team.teamSize != this.membercount && this.teamsizeflag==false) {
+      } 
+      else if (this.team.teamSize != this.membercount && this.teamsizeflag==false) 
+      {
         document.getElementById("teammemberid").focus();
         document.getElementById("teammemberid").style = "border-color:red;";
         document.getElementById("membererr").innerHTML =
@@ -600,7 +617,7 @@ export default {
       this.team.leaderId = event.target.value;
     },
     onselectteamsize: function(event) {
-        if(event.target.value>this.empcnt)
+        if(event.target.value>this.empcnt || event.target.value<2)
         {
           this.teamsizeflag=true;
         }

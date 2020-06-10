@@ -8,7 +8,7 @@
                         <div class="col-lg-6 col-md-8 col-sm-12">
                             <h2><a href="javascript:void(0);"></a> Add Module</h2>
                             <ul class="breadcrumb">
-                               <li style="margin-top:5px;" class="breadcrumb-item"><router-link to="/memberdashboard"><i  class="icon-home"></i></router-link></li>
+                                <li class="breadcrumb-item"><router-link to="/memberdashboard"><i class="icon-home"></i></router-link></li>
                                <li style="margin-top:5px;" class="breadcrumb-item">Project</li>
                                <li style="margin-top:5px;" class="breadcrumb-item active">View Projects</li>
                                <li style="margin-top:5px;" class="breadcrumb-item active">Project Details</li>
@@ -41,6 +41,8 @@
                                             <input @click="ondeadlineclick" v-bind:data-date-start-date="deadlineval" type="text"  id="deadline" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="DeadLine" autocomplete="off">
                                         </div>
+                                        <p style="color:red;" v-if="deadlinelessflag">* Deadline isn't less then to startdate</p>
+
                                     </div>
 
                                     <div class="col-md-4 col-sm-12">
@@ -106,17 +108,22 @@
 
                                    <div class="col-md-4 col-sm-12">
                                       <div class="form-group">
-                                       <input type="text" v-bind:data-date-start-date="startval"  id="startdate1" data-provide="datepicker" data-date-autoclose="true"
+                                       <input @click="onstartdate1click" type="text" v-bind:data-date-start-date="startval"  id="startdate1" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="Start Date">
                                       </div>
+                                      <p style="color:red;" v-if="startlessflag1">* startdate isn't less then to module's startdate</p>
+
                                     </div>
 
                                     <div class="col-md-4 col-sm-12">
                                         <div class="form-group">
 
-                                            <input type="text" v-bind:data-date-start-date="deadlineval"  id="deadline1" data-provide="datepicker" data-date-autoclose="true"
+                                            <input @click="ondeadline1click" type="text" v-bind:data-date-start-date="deadlineval"  id="deadline1" data-provide="datepicker" data-date-autoclose="true"
                                                 class="form-control" placeholder="DeadLine">
+
                                         </div>
+                                        <p style="color:red;" v-if="deadlinelessflag1">* Deadline isn't greater then to module's deadline</p>
+
                                     </div>
 
                                     <div class="col-md-6 col-sm-12">
@@ -215,6 +222,9 @@ export default {
         submoduleArr1:[{}],
         description:'',
         teamarr:[{}],
+        deadlinelessflag:false,
+        deadlinelessflag1:false,
+        startlessflag1:false,
         empId:'',
         count:0,
         memberId:'',
@@ -277,9 +287,6 @@ export default {
           }
       })
 
-    },
-    destroyed(){
-        localStorage.removeItem('leaderId');
     },
     methods:{
 
@@ -418,18 +425,13 @@ export default {
       },
 
       ondeadlineclick:function(){
-        /* var s = $("#startdate").datepicker("getDate");
-        var today = new Date();
-        if(s.getDate() == today.getDate() && s.getMonth() == today.getMonth() && s.getFullYear() == today.getFullYear())
-        {
-          this.deadlineval = "+0d";
-        }
-        else{
-        var diff = parseInt((s.getTime()-today.getTime())/(24*3600*1000));
-        diff = diff + 1;
-        this.deadlineval = "";
-        this.deadlineval = "+" + diff + "d";
-       } */
+        this.deadlinelessflag = false;
+      },
+      onstartdate1click:function(){
+        this.startlessflag1 = false
+      },
+      ondeadline1click:function(){
+        this.deadlinelessflag1 = false;
       },
       oncancel:function(){
        this.$router.push({path:'/memberprojectdetails/' + localStorage.getItem("projectId")});
@@ -481,6 +483,8 @@ export default {
           }
       },
       submodule:function(){
+            var ddeadline = new Date($("#deadline").datepicker().val());
+            var sstartdate = new Date($("#startdate").datepicker().val());
             if(this.moduleArr.moduleName == ""){
                 document.getElementById("mname").focus();
                 document.getElementById("mname").style = "border-color:red;"
@@ -490,6 +494,9 @@ export default {
             }
             else if(document.getElementById("deadline").value == ""){
                 document.getElementById("deadline").focus();
+            }
+            else if(ddeadline < sstartdate){
+              this.deadlinelessflag = true;
             }
             else if(this.memberarr.length == 1){
                 document.getElementById("lstMembers").focus();
@@ -505,6 +512,12 @@ export default {
              }
       },
       onaddsubmodule:function(){
+            var ddeadline = new Date($("#deadline").datepicker().val());
+            var sstartdate = new Date($("#startdate").datepicker().val());
+
+            var ddeadline1 = new Date($("#deadline1").datepicker().val());
+            var sstartdate1 = new Date($("#startdate1").datepicker().val());
+
             if(document.getElementById("name").value == ""){
                 document.getElementById("name").focus();
                 document.getElementById("name").style = "border-color:red;"
@@ -515,6 +528,13 @@ export default {
             else if(document.getElementById("deadline1").value == ""){
                 document.getElementById("deadline1").focus();
             }
+            else if(sstartdate1 < sstartdate){
+              this.startlessflag1 = true;
+            }
+            else if(ddeadline1 > ddeadline){
+              this.deadlinelessflag1 = true;
+            }
+
             else if(document.getElementById("content1").value == ""){
                 document.getElementById("content1").focus();
                 document.getElementById("content1").style = "border-color:red;";
