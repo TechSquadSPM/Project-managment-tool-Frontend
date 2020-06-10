@@ -30,12 +30,12 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <div class="form-group">
-                                            <input type="text" @input="onmname" id="mname" class="form-control" placeholder="Middle Name"  v-model="emparr.empMiddleName">
+                                            <input type="text" @input="onmname" id="mname" class="form-control" @keydown="onKeydown" placeholder="Middle Name"  v-model="emparr.empMiddleName">
                                         </div>
                                     </div>
                                     <div class="col-sm-8">
                                         <div class="form-group">
-                                            <input type="text" @input="onlname" id="lname" class="form-control" placeholder="Last Name"  v-model="emparr.empLastName">
+                                            <input type="text" @input="onlname" id="lname" class="form-control" @keydown="onKeydown" placeholder="Last Name"  v-model="emparr.empLastName">
                                         </div>
                                     </div>
                                     <div class="col-sm-8">

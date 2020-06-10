@@ -25,17 +25,17 @@
                                 <div style="margin-left:20%;" class="row clearfix">
                                     <div class="col-sm-8">
                                         <div class="form-group">
-                                            <input type="text" @input="onfname" id="fname" class="form-control" placeholder="First Name" v-model="emparr.empFirstName">
+                                            <input type="text" @input="onfname" @keydown="onKeydown" id="fname" class="form-control" placeholder="First Name" v-model="emparr.empFirstName">
                                         </div>
                                     </div>
                                     <div class="col-sm-8">
                                         <div class="form-group">
-                                            <input type="text" @input="onmname" id="mname" class="form-control" placeholder="Middle Name"  v-model="emparr.empMiddleName">
+                                            <input type="text" @input="onmname" @keydown="onKeydown" id="mname" class="form-control" placeholder="Middle Name"  v-model="emparr.empMiddleName">
                                         </div>
                                     </div>
                                     <div class="col-sm-8">
                                         <div class="form-group">
-                                            <input type="text" @input="onlname" id="lname" class="form-control" placeholder="Last Name"  v-model="emparr.empLastName">
+                                            <input type="text" @input="onlname" @keydown="onKeydown" id="lname" class="form-control" placeholder="Last Name"  v-model="emparr.empLastName">
                                         </div>
                                     </div>
                                     <div class="col-sm-8">
@@ -79,6 +79,17 @@ export default {
       })
     },
     methods:{
+         onKeydown (event) {
+    	const char = String.fromCharCode(event.keyCode)
+      if((event.keyCode>=186 || event.keycode<=192) || (event.keycode>=219 && event.keycode<=222))
+      {
+        event.preventDefault()
+      }
+      
+    	if (/[0-9]/.test(char)) {
+      	event.preventDefault()
+      }
+    },  
       onfname:function(){
          document.getElementById("fname").style = "border-color:lightgrey;"
       },
