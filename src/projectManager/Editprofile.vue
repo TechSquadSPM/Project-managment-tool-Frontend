@@ -86,7 +86,10 @@ export default {
       {
         event.preventDefault()
       }
-      
+      if((event.keyCode>=97 || event.keycode<=105))
+      {
+        event.preventDefault()
+      }
     	if (/[0-9]/.test(char)) {
       	event.preventDefault()
       }

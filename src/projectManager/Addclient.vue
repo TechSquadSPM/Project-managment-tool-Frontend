@@ -35,6 +35,7 @@
                         placeholder="First Name "
                         v-model="client.clientFirstName"
                         @keydown="onKeydown"
+                        autocomplete="off"
                       />
                     </div>
                   </div>
@@ -47,6 +48,7 @@
                         placeholder="Middle Name"
                         v-model="client.clientMiddleName"
                          @keydown="onKeydown"
+                         autocomplete="off"
                       />
                     </div>
                   </div>
@@ -60,6 +62,7 @@
                         placeholder="Last Name"
                         v-model="client.clientLastName"
                          @keydown="onKeydown"
+                         autocomplete="off"
                       />
                     </div>
                   </div>
@@ -192,7 +195,10 @@ export default {
       {
         event.preventDefault()
       }
-      
+      if((event.keyCode>=97 || event.keycode<=105))
+      {
+        event.preventDefault()
+      }
     	if (/[0-9]/.test(char)) {
       	event.preventDefault()
       }
